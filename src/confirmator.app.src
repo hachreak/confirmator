@@ -1,5 +1,5 @@
 {application, 'confirmator',
- [{description, "An OTP library"},
+ [{description, "An OTP library to generate and verify tokens associated with a object."},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
