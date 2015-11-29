@@ -18,7 +18,7 @@
 %%% @doc Application configuration.
 %%% @end
 
--module(confirmator).
+-module(confirmator_config).
 
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
@@ -27,25 +27,25 @@
 
 %% @doc Gets the db backend.
 -spec backend() -> atom().
-backend() -> get(backend).
+backend() -> get_config(backend).
 
 %% @doc Gets the backend for generating tokens.
 -spec token_generator() -> atom().
-token_generator() -> get(token_generator, confirmator_token).
+token_generator() -> get_config(token_generator, confirmator_token).
 
 %% @doc Gets the backend for generating tokens.
 -spec token_length() -> integer().
-token_length() -> get(token_length, 32).
+token_length() -> get_config(token_length, 32).
 
 %%% Private functions ================================================
 
-get(Key, Default) ->
+get_config(Key, Default) ->
   case application:get_env(confirmator, Key) of
     undefined   -> Default;
     {ok, Value} -> Value
   end.
 
-get(Key) ->
+get_config(Key) ->
   case application:get_env(confirmator, Key) of
     undefined   -> throw({missing_config, Key});
     {ok, Value} -> Value

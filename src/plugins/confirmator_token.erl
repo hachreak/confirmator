@@ -15,23 +15,21 @@
 %%% along with this software; if not, write to the Free Software Foundation,
 %%% Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 %%%
-%%% @doc Application backend behaviour.
+%%% @doc Implementation of a token generator.
 %%% @end
 
--module(confirmator_backend).
+-module(confirmator_token).
+
+-behaviour(confirmator_token_generator).
 
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
-%% @doc Register the object by its id, associate with a token.
-%%      If the object was already registered, update the token in any case.
--callback register(confirmator:id(), confirmator:token(),
-                   confirmator:appctx()) ->
-  {ok, confirmator:appctx()} | {error, bad_token}.
+-export([generate/0]).
 
-%% @doc Confirm the object associated with the token. Return true if the token
-%%      is valid.
-%%      Otherwise, return false.
-%%      In any case remove it from the database because it's usable only one
-%%      time.
--callback confirm(confirmator:id(), confirmator:token(),
-                  confirmator:appctx()) -> {boolean(), confirmator:appctx()}.
+-define(TOKEN_LENGTH, (confirmator_config:token_length())).
+
+-spec generate() -> confirmator:token().
+generate() ->
+  Random = crypto:rand_bytes(?TOKEN_LENGTH),
+  list_to_binary(lists:flatten(
+      [io_lib:format("~2.16.0b", [C]) || <<C>> <= Random])).

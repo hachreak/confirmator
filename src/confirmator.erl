@@ -31,7 +31,7 @@
 
 %%% Types ============================================================
 
--type identifier() :: binary().
+-type id() :: binary().
 -type token()      :: binary().
 -type appctx()     :: any().
 
@@ -39,20 +39,20 @@
 %% API functions
 %%====================================================================
 
--spec register(identifier(), appctx()) ->
+-spec register(id(), appctx()) ->
   {ok, appctx()} | {error, bad_token}.
 register(Id, AppCtx) ->
   register(Id, ?TOKEN:generate(), AppCtx).
 
--spec register(identifier(), token(),
+-spec register(id(), token(),
                appctx()) -> {ok, appctx()} | {error, bad_token}.
-register(Id, Token AppCtx) ->
-  ?BACKEND:register(Id, Token, AppCtx).
+register(Id, Token, AppCtx) ->
+  ?BACKEND:register(Id, erlang:md5(Token), AppCtx).
 
--spec confirm(identifier(), token(),
+-spec confirm(id(), token(),
               appctx()) -> {boolean(), appctx()}.
 confirm(Id, Token, AppCtx) ->
-  ?BACKEND:register(Id, Token, AppCtx).
+  ?BACKEND:confirm(Id, erlang:md5(Token), AppCtx).
 
 %%====================================================================
 %% Internal functions
