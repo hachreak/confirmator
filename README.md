@@ -24,15 +24,16 @@ deleted for security.
 save it. It's done for security reasons.
 
 
-Examples
---------
+Backend Implementation
+----------------------
 
 You can find an example of backend inside the `test` directory.
 
 To see a "real" backend, you can see:
 
   - [confirmator_mongopool](https://github.com/hachreak/confirmator_mongopool):
-    It implements the backend through [mongopool](https://github.com/hachreak/mongopool).
+    It implements the backend through
+    [mongopool](https://github.com/hachreak/mongopool).
 
 
 Configuration
@@ -62,6 +63,42 @@ Example of configuration:
 ]
 ```
 
+
+Usage
+-----
+
+ - To start the `confirmator` application:
+
+```erlang
+{ok, AppCtx} = confirmator:start().
+```
+
+Now, you can easily start the confirmation of a object (e.g. a new user that
+need to confirm heself by email).
+
+ - Register the object: the application will save somewhere (it depends from
+the backend installed) the id and the (automatically) generated token.
+
+```erlang
+{ok, {Token, NewAppCtx}} = confirmator:register(<<"my_object_id">>, AppCtx).
+```
+
+ - The confirmation of the object (e.g. after the user receive the
+   confirmation email that contains a well defined confirmation link, he'll
+   open the it, passing back the token to the system, now able to confirm him).
+
+```erlang
+case confirmator:confirm(<<"my_object_id">>, Token, NewAppCtx) of
+  {true, NewNewAppCtx} -> ok;
+  {false, NewNewAppCtx} -> no
+end.
+```
+
+ - To stop the application:
+
+```erlang
+confirmator:stop(NewNewAppCtx).
+```
 
 Build
 -----
