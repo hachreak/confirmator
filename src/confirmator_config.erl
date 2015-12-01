@@ -23,7 +23,7 @@
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
 %% API exports
--export([backend/0, token_generator/0]).
+-export([backend/0, token_generator/0, token_length/0]).
 
 %% @doc Gets the db backend.
 -spec backend() -> atom().
@@ -31,7 +31,8 @@ backend() -> get_config(backend).
 
 %% @doc Gets the backend for generating tokens.
 -spec token_generator() -> atom().
-token_generator() -> get_config(token_generator, confirmator_token).
+token_generator() -> get_config(token_generator,
+                                confirmator_token_generator_default).
 
 %% @doc Gets the backend for generating tokens.
 -spec token_length() -> integer().

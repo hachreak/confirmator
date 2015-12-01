@@ -18,7 +18,7 @@
 %%% @doc Implementation of a token generator.
 %%% @end
 
--module(confirmator_token).
+-module(confirmator_token_generator_default).
 
 -behaviour(confirmator_token_generator).
 
