@@ -27,7 +27,7 @@
 
 %%% Macros ===========================================================
 -define(BACKEND, (confirmator_config:backend())).
--define(TOKEN, (confirmator_config:token_generation())).
+-define(TOKEN, (confirmator_config:token_generator())).
 
 %%% Types ============================================================
 
@@ -52,8 +52,8 @@ stop(AppCtx) ->
 register(Id, AppCtx) ->
   register(Id, ?TOKEN:generate(), AppCtx).
 
--spec register(id(), token(),
-               appctx()) -> {ok, {token(), appctx()}} | {error, bad_token}.
+-spec register(id(), token(), appctx()) ->
+  {ok, {token(), appctx()}} | {error, token()}.
 register(Id, Token, AppCtx) ->
   case ?BACKEND:register(Id, erlang:md5(Token), AppCtx) of
     {ok, NewAppCtx} -> {ok, {Token, NewAppCtx}};
