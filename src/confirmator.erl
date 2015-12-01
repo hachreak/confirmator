@@ -23,7 +23,7 @@
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
 %% API exports
--export([register/2, register/3, confirm/3]).
+-export([start/0, stop/1, register/2, register/3, confirm/3]).
 
 %%% Macros ===========================================================
 -define(BACKEND, (confirmator_config:backend())).
@@ -31,13 +31,21 @@
 
 %%% Types ============================================================
 
--type id() :: binary().
--type token()      :: binary().
--type appctx()     :: any().
+-type id()      :: binary().
+-type token()   :: binary().
+-type appctx()  :: any().
 
 %%====================================================================
 %% API functions
 %%====================================================================
+
+-spec start() -> {ok, appctx()} | {error, token()}.
+start() ->
+  ?BACKEND:start().
+
+-spec stop(appctx()) -> ok.
+stop(AppCtx) ->
+  ?BACKEND:stop(AppCtx).
 
 -spec register(id(), appctx()) ->
   {ok, appctx()} | {error, bad_token}.
