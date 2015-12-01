@@ -48,17 +48,19 @@ stop(AppCtx) ->
   ?BACKEND:stop(AppCtx).
 
 -spec register(id(), appctx()) ->
-  {ok, appctx()} | {error, bad_token}.
+  {ok, {token(), appctx()}} | {error, bad_token}.
 register(Id, AppCtx) ->
   register(Id, ?TOKEN:generate(), AppCtx).
 
 -spec register(id(), token(),
-               appctx()) -> {ok, appctx()} | {error, bad_token}.
+               appctx()) -> {ok, {token(), appctx()}} | {error, bad_token}.
 register(Id, Token, AppCtx) ->
-  ?BACKEND:register(Id, erlang:md5(Token), AppCtx).
+  case ?BACKEND:register(Id, erlang:md5(Token), AppCtx) of
+    {ok, NewAppCtx} -> {ok, {Token, NewAppCtx}};
+    {error, ErrorType} -> {error, ErrorType}
+  end.
 
--spec confirm(id(), token(),
-              appctx()) -> {boolean(), appctx()}.
+-spec confirm(id(), token(), appctx()) -> {boolean(), appctx()}.
 confirm(Id, Token, AppCtx) ->
   ?BACKEND:confirm(Id, erlang:md5(Token), AppCtx).
 

@@ -34,7 +34,7 @@
 %%% My API Implementation.
 
 start() ->
-  #{}.
+  {ok, #{}}.
 
 stop(_AppCtx) ->
   ok.
