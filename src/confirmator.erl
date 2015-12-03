@@ -41,10 +41,9 @@
 %% API functions
 %%====================================================================
 
--spec start(application:start_type(), term()) ->
-  {ok, appctx()} | {error, token()}.
+-spec start(application:start_type(), term()) -> ok | {error, token()}.
 start(_StartType, _StartArgs) ->
-  start().
+  ok.
 
 -spec start() -> {ok, appctx()} | {error, token()}.
 start() ->
