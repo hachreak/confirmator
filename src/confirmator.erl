@@ -22,8 +22,10 @@
 
 -author('Leonardo Rossi <leonardo.rossi@studenti.unipr.it>').
 
+-behaviour(application).
+
 %% API exports
--export([start/0, stop/1, register/2, register/3, confirm/3]).
+-export([start/2, start/0, stop/1, register/2, register/3, confirm/3]).
 
 %%% Macros ===========================================================
 -define(BACKEND, (confirmator_config:backend())).
@@ -38,6 +40,11 @@
 %%====================================================================
 %% API functions
 %%====================================================================
+
+-spec start(application:start_type(), term()) ->
+  {ok, appctx()} | {error, token()}.
+start(_StartType, _StartArgs) ->
+  start().
 
 -spec start() -> {ok, appctx()} | {error, token()}.
 start() ->
