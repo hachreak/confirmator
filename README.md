@@ -63,14 +63,19 @@ Example of configuration:
 ]
 ```
 
-
 Usage
 -----
+
+ - Start the `backend` application if it's necessary with:
+
+```erlang
+application:ensure_all_started(mybackend).
+```
 
  - To start the `confirmator` application:
 
 ```erlang
-{ok, AppCtx} = confirmator:start().
+{ok, AppCtx} = confirmator:init().
 ```
 
 Now, you can easily start the confirmation of a object (e.g. a new user that

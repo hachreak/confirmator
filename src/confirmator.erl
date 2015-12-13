@@ -25,7 +25,7 @@
 -behaviour(application).
 
 %% API exports
--export([start/2, start/0, stop/1, register/2, register/3, confirm/3]).
+-export([start/2, init/0, stop/1, register/2, register/3, confirm/3]).
 
 %%% Macros ===========================================================
 -define(BACKEND, (confirmator_config:backend())).
@@ -45,9 +45,9 @@
 start(_StartType, _StartArgs) ->
   ok.
 
--spec start() -> {ok, appctx()} | {error, token()}.
-start() ->
-  ?BACKEND:start().
+-spec init() -> {ok, appctx()} | {error, token()}.
+init() ->
+  ?BACKEND:init().
 
 -spec stop(appctx()) -> ok.
 stop(AppCtx) ->
