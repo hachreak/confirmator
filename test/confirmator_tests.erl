@@ -52,7 +52,7 @@ generate_ok_autogen(AppCtx) ->
   fun() ->
       Id = <<"test-generate-ok-id">>,
 
-      {ok, {Token, NewAppCtx}} = confirmator:register(Id, AppCtx),
+      {ok, {NewAppCtx, Token}} = confirmator:register(Id, AppCtx),
       ?assertEqual({true, AppCtx}, confirmator:confirm(Id, Token, NewAppCtx))
   end.
 
@@ -60,7 +60,7 @@ generate_wrong_token_autogen(AppCtx) ->
   fun() ->
       Id = <<"test-generate-wrong-token-id">>,
 
-      {ok, {Token, NewAppCtx}} = confirmator:register(Id, AppCtx),
+      {ok, {NewAppCtx, Token}} = confirmator:register(Id, AppCtx),
       WrongToken = << Token/binary, <<"test-wrong-token">>/binary >>,
       ?assertEqual({false, AppCtx},
                    confirmator:confirm(Id, WrongToken, NewAppCtx))
@@ -70,7 +70,7 @@ generate_ok(AppCtx) ->
       Id = <<"test-generate-ok-id">>,
       Token = <<"test-generate-ok-token">>,
 
-      {ok, {Token, NewAppCtx}} = confirmator:register(Id, Token, AppCtx),
+      {ok, {NewAppCtx, Token}} = confirmator:register(Id, Token, AppCtx),
       ?assertEqual({true, AppCtx}, confirmator:confirm(Id, Token, NewAppCtx))
   end.
 
@@ -80,7 +80,7 @@ generate_wrong_token(AppCtx) ->
       Token = <<"test-generate-wrong-token-token">>,
       WrongToken = <<"test-wrong-token">>,
 
-      {ok, {Token, NewAppCtx}} = confirmator:register(Id, Token, AppCtx),
+      {ok, {NewAppCtx, Token}} = confirmator:register(Id, Token, AppCtx),
       ?assertEqual({false, AppCtx},
                    confirmator:confirm(Id, WrongToken, NewAppCtx))
   end.
