@@ -45,7 +45,7 @@
 start(_StartType, _StartArgs) ->
   ok.
 
--spec init() -> {ok, appctx()} | {error, token()}.
+-spec init() -> {ok, appctx()} | {error, term()}.
 init() ->
   ?BACKEND:init().
 
